@@ -13,8 +13,7 @@
         "seed": "sequelize db:seed:all",
         "unseed": "sequelize db:seed:undo:all",
         "migrate:reset": "sequelize db:migrate:undo:all",
-        "migrate": "sequelize db:migrate",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix pent-app-frontend && npm run build --prefix pent-app-frontend"
+        "migrate": "sequelize db:migrate"
     },
     "repository": {
         "type": "git",

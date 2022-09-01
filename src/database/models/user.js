@@ -18,11 +18,6 @@ module.exports = (sequelize, DataTypes) => {
             isEmail: true,
           },
         },
-        accountType: {
-          type: DataTypes.ENUM,
-          values: ['individual', 'business'],
-          allowNull: false,
-        },
         gender: {
           type: DataTypes.ENUM,
           values: ['male', 'female'],
@@ -39,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       },
   );
   User.associate = (models) => {
-    User.hasOne(models.Business, {
+    User.hasMany(models.Review, {
       foreignKey: {
         name: 'userId',
       },

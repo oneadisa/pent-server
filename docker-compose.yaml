@@ -4,9 +4,9 @@ services:
         image: postgres:14
         restart: always
         environment:
-          - POSTGRES_USER=gaged
-          - POSTGRES_PASSWORD=gaged
-          - POSTGRES_DB=gaged
+          - POSTGRES_USER=pent
+          - POSTGRES_PASSWORD=pent
+          - POSTGRES_DB=pent
         logging:
           options:
             max-size: 10m

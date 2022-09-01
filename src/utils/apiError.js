@@ -1,5 +1,5 @@
 /**
- * Error class for gaged API
+ * Error class for pent API
  * @extends Error
  */
 export default class ApiError extends Error {

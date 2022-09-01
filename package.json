@@ -1,32 +1,32 @@
 {
-    "name": "gaged",
+    "name": "pent",
     "version": "1.0.0",
-    "description": "Gaged Application",
+    "description": "Pent Application",
     "main": "app.js",
     "scripts": {
         "build": "rm -fr dist && babel src -d dist",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "prestart": "sequelize db:migrate && yarn run build",
+        "prestart": "sequelize db:migrate && npm run build",
         "start": "node dist/app.js",
-        "prestart:dev": "cross-env NODE_ENV=development yarn run migrate && cross-env NODE_ENV=development yarn run seed",
+        "prestart:dev": "cross-env NODE_ENV=development npm run migrate && cross-env NODE_ENV=development npm run seed",
         "start:dev": "nodemon -r dotenv/config --exec babel-node src/app.js dotenv_config_path=.env.development",
         "seed": "sequelize db:seed:all",
         "unseed": "sequelize db:seed:undo:all",
         "migrate:reset": "sequelize db:migrate:undo:all",
         "migrate": "sequelize db:migrate",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix gaged-app-frontend && npm run build --prefix gaged-app-frontend"
+        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix pent-app-frontend && npm run build --prefix pent-app-frontend"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Gaged-INC/gaged-app-backend.git"
+        "url": "git+https://github.com/pent-server.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/Gaged-INC/gaged-app-backend/issues"
+        "url": "https://github.com/pent-server/issues"
     },
-    "homepage": "https://github.com/Gaged-INC/gaged-app-backend",
+    "homepage": "https://github.com/pent-server",
     "dependencies": {
         "@babel/runtime": "^7.17.2",
         "bcryptjs": "^2.4.3",

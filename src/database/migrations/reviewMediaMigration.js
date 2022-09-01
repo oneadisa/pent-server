@@ -1,37 +1,25 @@
-'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Businesses', {
+    await queryInterface.createTable('ReviewMedia', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      businessName: {
+      publicId: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      natureOfBusiness: {
+      url: {
         type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          isUrl: true,
+        },
       },
-      businessEmail: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
-      businessAddress: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      businessType: {
-        type: Sequelize.ENUM,
-        values: ['LLC', 'sole proprietorship', 'unregistered'],
-        allowNull: false,
-      },
-      cacCertURL: {
-        type: Sequelize.STRING,
+      reviewId: {
+        type: Sequelize.INTEGER,
         allowNull: true,
       },
       userId: {
@@ -55,6 +43,7 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Businesses');
+    await queryInterface.dropTable('ReviewMedia');
   },
 };
+

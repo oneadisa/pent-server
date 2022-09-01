@@ -1,2 +1,3 @@
 export * from './authValidation';
-export * from './businessValidation';
+export * from './reviewsValidation';
+export * from './reviewMediaValidation';

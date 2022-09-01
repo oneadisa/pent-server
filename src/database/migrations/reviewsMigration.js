@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      landLord: {
+      landlord: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },

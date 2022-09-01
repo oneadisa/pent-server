@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    landLord: {
+    landlord: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

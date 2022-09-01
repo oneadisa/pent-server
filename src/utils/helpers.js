@@ -84,3 +84,125 @@ export const errorResponse = (res,
     },
   });
 };
+
+
+/**
+* Checks token from request header for user authentication
+* @param {object} req - The request from the endpoint
+* @memberof Helpers
+* @return {Token} Token
+*/
+export const checkToken = async (req) => {
+  const {
+    headers: {authorization},
+    cookies: {token: cookieToken},
+  } = req;
+  let bearerToken = null;
+  if (authorization) {
+    bearerToken = authorization.split(' ')[1] ?
+      authorization.split(' ')[1] : authorization;
+  }
+  return cookieToken || bearerToken || req.headers['x-access-token'] ||
+    req.headers.token || req.body.token;
+};
+
+/**
+   *
+   *  Synchronously verify the given JWT token using a secret
+   * @param {*} token - JWT token.
+   * @return {string | number | Buffer | object } - Decoded JWT payload if
+   * token is valid or an error message if otherwise.
+   * @memberof Helpers
+   */
+export const verifyToken = (token) => {
+  try {
+    return jwt.verify(token, process.env.SECRET);
+  } catch (err) {
+    throw new Error('Invalid Token');
+  }
+};
+
+/**
+   * Generates email verification link
+   * @static
+   * @param { Request } req - Request object
+   * @param { object } options - Contains user's data to be signed within Token.
+   * @param { string } options.id - User's unique ID.
+   * @param { string } options.email - User's email.
+   * @param { string } options.role - User's role.
+   * @memberof Helpers
+   * @return {URL} - Verification link.
+   */
+export const generateVerificationLink = (req, {id, email, role}) => {
+  const token = generateToken({id, email, role});
+  // eslint-disable-next-line max-len
+  const host = req.hostname === 'localhost' ? `${req.hostname}:${process.env.PORT}` :
+    req.hostname;
+  return `${req.protocol}://${host}/api/auth/verify?token=${token}`;
+};
+
+
+/**
+* Extracts a new review object from the one supplied
+* @param {object} review - The user data from which a new review
+ object will be extracted.
+* @memberof Helpers
+* @return { object } - The new extracted user object.
+*/
+export const extractReviewData = (review) => {
+  return {
+    id: review.id,
+    reviewTitle: review.reviewTitle,
+    description: review.description,
+    landlord: review.landlord,
+    location: review.location,
+    amenities: review.amenities,
+    numberOfReviews: review.numberOfReviews,
+    ratings: review.ratings,
+    userId: review.userId,
+    createdAt: review.createdAt,
+    updatedAt: review.updatedAt,
+  };
+};
+
+/**
+* Extracts a new user object from the one supplied
+* @param {object} user - The user data from which a new user
+ object will be extracted.
+* @memberof Helpers
+* @return { object } - The new extracted user object.
+*/
+export const extractUserData = (user) => {
+  return {
+    id: user.id,
+    isVerified: user.isVerified,
+    token: user.token,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    gender: user.gender,
+    phoneNumber: user.phoneNumber,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  };
+};
+
+/**
+* Extracts a new review Image object from the one supplied
+* @param {object} reviewMedia - The user data from which a new review Image
+ object will be extracted.
+* @memberof Helpers
+* @return { object } - The new extracted user object.
+*/
+export const extractProductImageData = (reviewMedia) => {
+  return {
+    id: reviewMedia.id,
+    publicId: reviewMedia.publicId,
+    url: reviewMedia.url,
+    userId: reviewMedia.userId,
+    reviewId: reviewMedia.reviewId,
+    createdAt: reviewMedia.createdAt,
+    updatedAt: reviewMedia.updatedAt,
+  };
+};
+

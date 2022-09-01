@@ -194,7 +194,7 @@ export const extractUserData = (user) => {
 * @memberof Helpers
 * @return { object } - The new extracted user object.
 */
-export const extractProductImageData = (reviewMedia) => {
+export const extractReviewMediaData = (reviewMedia) => {
   return {
     id: reviewMedia.id,
     publicId: reviewMedia.publicId,

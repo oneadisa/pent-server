@@ -29,29 +29,29 @@ export const addReviewMedia = async (req, res) => {
     const {
       publicId,
       url,
-      productId,
+      reviewId,
       userId,
     } = req.body;
 
     // const result = await cloudinary.v2.uploader.upload( {
-    // folder: 'products',
+    // folder: 'reviews',
     // });
 
     const reviewMediaInfo = {
       publicId,
       url,
-      productId,
+      reviewId,
       userId,
     };
-    const review = await findReviewMediaBy({productId, userId});
+    const review = await findReviewMediaBy({reviewId, userId});
     if (review) {
       const reviewMedia = await updateReviewMediaBy(req.body,
-          {productId, userId});
+          {reviewId, userId});
       const reviewMediaResponse = extractReviewMediaData(reviewMedia);
       successResponse(res, reviewMediaResponse, 200);
     } else {
       const reviewMedia = await createReviewMedia(reviewMediaInfo);
-      successResponse(res, {...reviewMedia}, productResponse, 201);
+      successResponse(res, {...reviewMedia}, reviewResponse, 201);
     }
   } catch (error) {
     errorResponse(res, {
@@ -108,7 +108,7 @@ export const getReviewMediaDetails = async (req, res) => {
 };
 
 /**
-       * Get reviews that belong to a particular product.
+       * Get reviews that belong to a particular review.
        *
        * @static
        * @param {Request} req - The request from the browser.
@@ -118,8 +118,8 @@ export const getReviewMediaDetails = async (req, res) => {
        */
 export const getReviewMediasProduct = async (req, res) => {
   try {
-    const id = req.params.productId;
-    const {count, rows} = await findReviewMediasAndCountBy({productId: id});
+    const id = req.params.reviewId;
+    const {count, rows} = await findReviewMediasAndCountBy({reviewId: id});
     return res.status(200).json({
       success: true,
       count,

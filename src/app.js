@@ -24,6 +24,15 @@ if (!isProduction) {
 
 app.use('/api', routes);
 
+app.get('/', (req, res) => {
+  res.send({
+    msg: 'Hello from Pent server',
+    Time: new Date(),
+    status: 'running',
+    server: 'Express + Babel JS Server',
+  });
+});
+
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');

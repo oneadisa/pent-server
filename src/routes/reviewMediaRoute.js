@@ -18,16 +18,11 @@ router
 router.get('/me', getMyReviewMediaDetails);
 router.get('/me/profile/:userId', getReviewMediaDetailsUser);
 
-router.get('/one/image/:productImageId', getReviewMediaDetails);
-router.put('/one/update/:productImageId', updateReviewMediaProfile);
-router.delete('/one/delete/:productImageId',
+router.get('/one/image/:reviewImageId', getReviewMediaDetails);
+router.put('/one/update/:reviewImageId', updateReviewMediaProfile);
+router.delete('/one/delete/:reviewImageId',
     deleteReviewMediaAction);
 
-router.get('/admin/image/:productImageId', getReviewMediaDetails);
-router.put('/admin/update/:productImageId', updateReviewMediaProfile);
-router.delete('/admin/delete/:productImageId',
-    deleteReviewMediaAction);
-
-router.get('/one/product/:productId', getReviewMediasProduct);
+router.get('/one/review/:reviewId', getReviewMediasProduct);
 
 export default router;

@@ -11,3 +11,5 @@ router.post('/user/signup', onUserSignup, userSignup);
 router.get('/user/:userId/profile', getUserProfile);
 router.post('/login', loginUser);
 router.get('/logout', logout);
+
+export default router;

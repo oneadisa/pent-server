@@ -4,13 +4,13 @@ import {findUserBy} from './';
 import db from '../database/models';
 import ApiError from '../utils/apiError';
 // const { Op } = require('@sequelize/core');
-import sequelize from 'sequelize';
+// import sequelize from 'sequelize';
 const {Review} = db;
 
 /**
  * Creates a new Product Review.
  *
- * @param {object} reviewInfo - The product to be saved in the database.
+ * @param {object} reviewInfo - The review to be saved in the database.
  * @memberof ReviewService
  * @return {Promise<object>} A promise object with user detail.
  */
@@ -23,7 +23,7 @@ export const createReview = async (reviewInfo) => {
 };
 
 /**
- * Find a product review
+ * Find a review review
  * @param {number | object | string} options - Review search value
  * @return {Promise<object>} A promise object with user detail.
  * @memberof ReviewService
@@ -33,7 +33,7 @@ export const findReviewBy = async (options) => {
 };
 
 /**
- * Find all product reviews given a query
+ * Find all review reviews given a query
  * @param {number | object | string} options - Review search value
  * @return {Promise<object>} A promise object with user detail.
  * @memberof ReviewService
@@ -43,29 +43,35 @@ export const findReviewsBy = async (options) => {
 };
 
 /**
- * Find all product reviews given a query
+ * Find all review reviews given a query
  * @param {number | object | string} options - Review search value
  * @return {Promise<object>} A promise object with user detail.
  * @memberof ReviewService
  */
-export const findReviewsRating = async (options) => {
-  // const rating = await Review.avg('rating', {where: options});
-  // await Review.findAll({attributes:
-  //  ['productId', [sequelize.fn('SUM', sequelize.col('rating')), 'ratings']],
-  // group: ['productId'],
-  // raw: true,
-  // });
-  const rating = await Review.findAll({where: options,
-    attributes: [
-      [sequelize.fn('AVG', sequelize.col('rating')), 'ratings']],
-    raw: true,
+export const findBestReviews = async (options) => {
+  const rating = await Review.findAll({
+    order: [['ratings', 'DESC']],
   });
 
   return rating;
 };
 
 /**
- * Find all product reviews given a query and give count
+ * Find all review reviews given a query
+ * @param {number | object | string} options - Review search value
+ * @return {Promise<object>} A promise object with user detail.
+ * @memberof ReviewService
+ */
+export const findRecentReviews = async (options) => {
+  const rating = await Review.findAll({
+    order: [['updatedAt', 'DESC']],
+  });
+
+  return rating;
+};
+
+/**
+ * Find all review reviews given a query and give count
  * @param {number | object | string} options - Donation search value
  * @return {Promise<object>} A promise object with user detail.
  * @memberof DonationService
@@ -87,12 +93,12 @@ export const findReviewsAndCountBy = async (options) => {
    * @memberof ReviewService
    */
 export const updateReviewById = async (ReviewData, id) => {
-  const [rowaffected, [product]] = await Review.update(
+  const [rowaffected, [review]] = await Review.update(
       ReviewData,
       {returning: true, where: {id}},
   );
   if (!rowaffected) throw new ApiError('Not Found');
-  return product;
+  return review;
 };
 
 /**
@@ -100,53 +106,53 @@ export const updateReviewById = async (ReviewData, id) => {
  *
 *@param {object} newValues Object of fields to be updated
 *@param {object} obj An object of the keys to be
- * searched e.g {id}, {productEmail}
+ * searched e.g {id}, {reviewEmail}
  * @memberof ReviewService
- * @return {Promise<Review>} A promise object with product detail.
+ * @return {Promise<Review>} A promise object with review detail.
  */
 export const updateReviewBy = async (newValues, obj) => {
-  const product = await findReviewBy(obj);
-  if (!product) {
+  const review = await findReviewBy(obj);
+  if (!review) {
     throw new ApiError(404, `Review with ${obj} does not exist`);
   }
 
-  return await product.update(newValues);
+  return await review.update(newValues);
 };
 
 /**
-  * Fetches a product instance based on it's primary key.
-  * @param {integer} productId - Primary key of the product to be fetched.
+  * Fetches a review instance based on it's primary key.
+  * @param {integer} reviewId - Primary key of the review to be fetched.
   * @param {object} options - Additional query information
   * @return {Promise<array>} - An instance of Review table including
   *  it's relationships.
   * @memberof ReviewService
   */
-export const findReviewById = async (productId, options = {}) => {
-  return Review.findByPk(productId, options);
+export const findReviewById = async (reviewId, options = {}) => {
+  return Review.findByPk(reviewId, options);
 };
 
 /**
- * Fetches all products
+ * Fetches all reviews
  * @return {Promise<array>} - An instance of notification
  *  table including it's relationships.
  * @memberof ReviewService
  */
 export const fetchAllReviews = async () => {
-  const products = await Review.findAll({});
-  return products;
+  const reviews = await Review.findAll({});
+  return reviews;
 };
 
 
 /**
-    * Updates all products' status to seen for a specific user.
-    * @param {integer} productId - The product Id.
-    * @return {Promise<array>} - An instance of product table including
+    * Updates all reviews' status to seen for a specific user.
+    * @param {integer} reviewId - The review Id.
+    * @return {Promise<array>} - An instance of review table including
     *  it's relationships.
     * @memberof ReviewService
 */
-export const deleteReview = async (productId) => {
+export const deleteReview = async (reviewId) => {
   const deleted = await Review.destroy({
-    where: {id: productId},
+    where: {id: reviewId},
   });
   return deleted;
 };

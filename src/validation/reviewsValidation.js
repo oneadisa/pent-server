@@ -22,6 +22,7 @@ export const validateReview = async (review) => {
     amenities: Joi.number()
         .required().label('Please enter a rating for the amenities'),
     ratings: Joi.number(),
+    images: Joi.array().items(Joi.string()),
     numberOfReviews: Joi.number(),
     userId: Joi.number(),
   });

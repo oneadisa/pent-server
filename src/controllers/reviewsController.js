@@ -2,15 +2,27 @@ import {successResponse, errorResponse,
   extractReviewData} from '../utils/helpers';
 // import {findStoreBy} from '../services';
 // import cloudinary from 'cloudinary';
-// import {v2 as cloudinary} from 'cloudinary';
+import {v2 as cloudinary} from 'cloudinary';
 require('dotenv').config();
-const cloudinary = require('cloudinary').v2;
+// const cloudinary = require('cloudinary').v2;
 import {createReview, findReviewBy, updateReviewBy,
   fetchAllReviews, deleteReview, findReviewsBy,
   findReviewMediasAndCountBy, createReviewMedia,
+  findBestReviews, findRecentReviews,
 } from '../services';
 
 
+// cloudinary.config({
+//   cloud_name: process.env.CLOUDINARY_NAME,
+//   api_key: process.env.CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_API_SECRET,
+// });
+
+// cloudinary.config({
+//   secure: true,
+// });
+
+// console.log(cloudinary.config());
 /**
    * Creates a new Review.
    *
@@ -49,49 +61,57 @@ export const addReview = async (req, res) => {
     };
 
     const preReview = await createReview(reviewInfo);
+    const review = preReview;
     const imagesLinks = [];
-    console.log(imagesArray);
+    if (imagesArray !== undefined) {
+      console.log(imagesArray);
+      for (let i = 0; i < imagesArray.length; i++) {
+        const result = await cloudinary.uploader.upload(imagesArray[i], {
+          folder: 'pent',
+        });
+        console.log('success', result);
+        imagesLinks.push({
+          publicId: result.public_id,
+          url: result.secure_url,
+        });
+        console.log(imagesLinks);
+      }
 
-    for (let i = 0; i < imagesArray.length; i++) {
-      const result = await cloudinary.uploader.upload(imagesArray[i], {
-        folder: 'reviews',
-      });
-      console.log('success', result);
-      imagesLinks.push({
-        publicId: result.public_id,
-        url: result.secure_url,
-      });
-      console.log(imagesLinks);
-    }
-
-    for (let i = 0; i < imagesLinks.length; i++) {
-      const {publicId, url} = imagesLinks[i];
-      const reviewMediaInfo = {
-        publicId,
-        url,
-        reviewId: preReview.id,
-        userId,
-      };
-      await createReviewMedia(reviewMediaInfo);
+      for (let i = 0; i < imagesLinks.length; i++) {
+        const {publicId, url} = imagesLinks[i];
+        const reviewMediaInfo = {
+          publicId,
+          url,
+          reviewId: preReview.id,
+          userId,
+        };
+        await createReviewMedia(reviewMediaInfo);
       // await createReviewMedia(imagesLinks[i], review.id,
       // userId );
+      }
+
+      // eslint-disable-next-line max-len
+      const review = await updateReviewBy({images: imagesLinks[0].url}, {id: preReview.id});
+      const {count, rows} = await
+      findReviewMediasAndCountBy({reviewId: preReview.id});
+
+      return res.status(200).json({
+        success: true,
+        preReview,
+        review,
+        reviewMedia: {
+          count,
+          rows,
+        },
+      });
+    } else {
+      return res.status(200).json({
+        success: true,
+        review,
+      });
     }
-
-    // eslint-disable-next-line max-len
-    const review = await updateReviewBy({images: imagesLinks[0].url}, {id: preReview.id});
-    const {count, rows} = await
-    findReviewMediasAndCountBy({reviewId: preReview.id});
-
-    return res.status(200).json({
-      success: true,
-      preReview,
-      review,
-      reviewMedia: {
-        count,
-        rows,
-      },
-    });
   } catch (error) {
+    // console.log(error);
     errorResponse(res, {
       code: error.statusCode,
       message: error.message,
@@ -125,6 +145,57 @@ export const getAllReviews = async (req, res) => {
   }
 };
 
+/**
+     * Get all reviews
+     *
+     * @static
+     * @param {Request} req - The request from the browser.
+     * @param {Response} res - The response returned by the method.
+     * @return { JSON } A JSON response all the created reviews.
+     * @memberof BookingController
+     */
+export const getRecentReviews = async (req, res) => {
+  try {
+    const reviews = await findRecentReviews();
+
+    return res.status(200).json({
+      success: true,
+      reviews,
+    });
+    // successResponse(res, {...reviews}, 201);
+  } catch (error) {
+    errorResponse(res, {
+      code: error.statusCode,
+      message: error.message,
+    });
+  }
+};
+
+/**
+     * Get all reviews
+     *
+     * @static
+     * @param {Request} req - The request from the browser.
+     * @param {Response} res - The response returned by the method.
+     * @return { JSON } A JSON response all the created reviews.
+     * @memberof BookingController
+     */
+export const getBestReviews = async (req, res) => {
+  try {
+    const reviews = await findBestReviews();
+
+    return res.status(200).json({
+      success: true,
+      reviews,
+    });
+    // successResponse(res, {...reviews}, 201);
+  } catch (error) {
+    errorResponse(res, {
+      code: error.statusCode,
+      message: error.message,
+    });
+  }
+};
 
 /**
      * Get a particular review review details.

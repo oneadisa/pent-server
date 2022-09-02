@@ -1,5 +1,12 @@
-import {generateToken, successResponse, errorResponse} from '../utils/helpers';
-import {createUser, getProfile} from '../services/userService';
+import {
+  generateToken, successResponse, errorResponse,
+  comparePassword, extractUserData,
+}
+  from '../utils/helpers';
+import {
+  createUser, getProfile, findUserBy,
+}
+  from '../services';
 
 /**
  * Registers a new user.

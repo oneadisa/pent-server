@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 0,
     },
+    images: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     ratings: {
       type: DataTypes.FLOAT,
       allowNull: false,

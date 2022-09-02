@@ -2,7 +2,7 @@ import {Router as expressRouter} from 'express';
 import {
   deleteReviewMediaAction, updateReviewMediaProfile, addReviewMedia,
   getMyReviewMediaDetails, getReviewMediaDetails, getAllReviewMedias,
-  getReviewMediasProduct, getReviewMediaDetailsUser,
+  getReviewMediasReview, getReviewMediaDetailsUser,
 } from '../controllers';
 import {onReviewMediaCreation} from '../middlewares';
 
@@ -23,6 +23,6 @@ router.put('/one/update/:reviewImageId', updateReviewMediaProfile);
 router.delete('/one/delete/:reviewImageId',
     deleteReviewMediaAction);
 
-router.get('/one/review/:reviewId', getReviewMediasProduct);
+router.get('/one/review/:reviewId', getReviewMediasReview);
 
 export default router;

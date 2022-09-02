@@ -1,7 +1,9 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import fileUpload from 'express-fileupload';
-import cloudinary from 'cloudinary';
+// import cloudinary from 'cloudinary';
+// import {v2 as cloudinary} from 'cloudinary';
+const cloudinary = require('cloudinary').v2;
 import cors from 'cors';
 import morgan from 'morgan';
 import errorhandler from 'errorhandler';
@@ -77,6 +79,8 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+// console.log(cloudinary.config());
 
 // Finally, let's start our server
 const server = app.listen(process.env.PORT || 3000, () => {

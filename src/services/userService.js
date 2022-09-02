@@ -110,7 +110,6 @@ export const getProfile = async (userId) => {
       {where: {
         id: userId,
       },
-      include: 'Business',
       });
   if (!user) {
     throw new ApiError(404, `User with ${userId} does not exist`);

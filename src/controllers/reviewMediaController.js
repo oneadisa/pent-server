@@ -51,7 +51,7 @@ export const addReviewMedia = async (req, res) => {
       successResponse(res, reviewMediaResponse, 200);
     } else {
       const reviewMedia = await createReviewMedia(reviewMediaInfo);
-      successResponse(res, {...reviewMedia}, reviewResponse, 201);
+      successResponse(res, {...reviewMedia}, 201);
     }
   } catch (error) {
     errorResponse(res, {
@@ -98,7 +98,7 @@ export const getAllReviewMedias = async (req, res) => {
        */
 export const getReviewMediaDetails = async (req, res) => {
   try {
-    const id = req.params.reviewMediaId;
+    const id = req.params.reviewImageId;
     const reviewMedia = await findReviewMediaBy({id});
     const reviewMediaResponse = extractReviewMediaData(reviewMedia);
     successResponse(res, reviewMediaResponse, 200);
@@ -116,7 +116,7 @@ export const getReviewMediaDetails = async (req, res) => {
        * @return { JSON } A JSON response with the newly created booking.
        * @memberof ReviewMediaController
        */
-export const getReviewMediasProduct = async (req, res) => {
+export const getReviewMediasReview = async (req, res) => {
   try {
     const id = req.params.reviewId;
     const {count, rows} = await findReviewMediasAndCountBy({reviewId: id});
@@ -164,7 +164,7 @@ export const updateReviewMediaProfile = async (req, res) => {
           */
 export const deleteReviewMediaAction = async (req, res) => {
   try {
-    const reviewMediaId = req.params.reviewMediaId;
+    const reviewMediaId = req.params.reviewImageId;
     const rowDeleted = await deleteReviewMedia(reviewMediaId);
     if (!rowDeleted) return errorResponse(res, {});
     successResponse(res, {id: reviewMediaId}, 200);

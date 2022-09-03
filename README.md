@@ -1,10 +1,4 @@
 # PENT
 
-Hi! We are **PENT LLC**, our goal is to power SMEs to achieve their growth objectives and we have created this application to serve as our codebase to achieve that aim.
-
-
-## Author
-
-**Twitter** Click [Here](https://twitter.com/Pent_) **@Pent\_**
-# pent-server
+**PENT LLC**. Pent is a hypothetical platform where users can sign up with their basic information and post reviews about apartments they have previously lived in.
 # pent-server

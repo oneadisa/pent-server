@@ -111,7 +111,7 @@ export const addReview = async (req, res) => {
       });
     }
   } catch (error) {
-    // console.log(error);
+    console.log(error);
     errorResponse(res, {
       code: error.statusCode,
       message: error.message,

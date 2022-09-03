@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "description": "Pent Application",
     "main": "app.js",
+    "engines": {
+    "node": "14.17.6",
+    "npm": "8.5.5"
+  },
     "scripts": {
         "build": "rm -fr dist && babel src -d dist",
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,15 +21,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/pent-server.git"
+        "url": "git+https://github.com/oneadisa/pent-server.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/pent-server/issues"
+        "url": "https://github.com/oneadisa/pent-server/issues"
     },
-    "homepage": "https://github.com/pent-server",
+    "homepage": "https://github.com/oneadisa/pent-server",
     "dependencies": {
         "@babel/runtime": "^7.17.2",
         "bcryptjs": "^2.4.3",
